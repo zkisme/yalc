@@ -1,6 +1,7 @@
 # Yalc
 
 > Better workflow than **npm | yarn link** for package authors.
+> 
 > 给包开发者比 **npm | yarn link** 更好用的工作流程 
 
 ## Why
@@ -12,18 +13,23 @@ When developing and authoring multiple packages (private or public), you often f
 ## What
 
 - `yalc` acts as very simple local repository for your locally developed packages that you want to share across your local environment.
+  
   *`yalc` 是一个非常简单的本地存储库，用于存储你本地开发的、想要在本地共享的包*
 
 - When you run `yalc publish` in the package directory, it grabs only files that should be published to NPM and _puts_ them in a special global store (located, for example, in `~/.yalc`).
+  
   *当你在包文件夹中运行`yalc publish`时，它仅抓取应该发布到npm的文件，并把它放到一个特殊的全局存储中（例如，位于`~/.yalc`）*
 
 - When you run `yalc add my-package` in your `project` it _pulls_ package content into `.yalc` in the current folder and injects a `file:`/`link:` dependency into `package.json`. Alternatively, you may use `yalc link my-package` which will create a symlink to the package content in `node_modules` and will not touch `package.json` (like `npm/yarn link` does), or you even may use it with **Pnmp/Yarn/Npm workspaces**.
+  
   *当你在你的项目中运行`yalc add my-package`时，它会从`.yalc`中拉取包内容到当前文件夹，并且注入一个`file:`/`link:`依赖到`package.json`中。或者，你可以使用`yalc link my-package`，它将创建一个指向`node_modules`中的包内容的软链接，而不会改变`package.json`（就像使用`npm/yarn link`一样）。或者，你甚至可以将它与**Pnpm/Yarn/Npm workspaces**一起使用。*
 
 - `yalc` creates a special `yalc.lock` file in your project (similar to `yarn.lock` and `package-lock.json`) that is used to ensure consistency while performing `yalc`'s routines.
+  
   *`yalc`会在你的项目中创建一个特殊的`yalc.lock`文件(与`yarn.lock`和`package-lock.json`文件类似)，这用于确保使用`yalc`时的一致性。*
 
 - `yalc` can be used with projects where `yarn` or `npm` package managers are used for managing `package.json` dependencies.
+  
   *`yalc`可以用于使用`yarn`或`npm`包管理器来管理`package.json`依赖的项目*
 
 
@@ -50,30 +56,49 @@ Some documented features might not have been published yet, see the [change log]
 ### Publish
 
 - Run `yalc publish` in your dependency package `my-package`.
-*在你的依赖包`my-package`中运行`yalc publish`*
+
+  *在你的依赖包`my-package`中运行`yalc publish`*
 
 - It will copy [all the files that should be published in remote NPM registry](https://docs.npmjs.com/files/package.json#files).
-*它会拷贝[它应该发布到远程npm注册表的所有文件](https://docs.npmjs.com/files/package.json#file)*
+
+  *它会拷贝[它应该发布到远程npm注册表的所有文件](https://docs.npmjs.com/files/package.json#file)*
 
 - If your package has any of these lifecycle scripts: `prepublish`, `prepare`, `prepublishOnly`, `prepack`, `preyalcpublish`, they will run before in this order. If your package has any of these: `postyalcpublish`, `postpack`, `publish`, `postpublish`, they will run after in this order. Use `--no-scripts` to publish without running scripts.
-*如果你的包中含有以下生命周期脚本：`prepublish`,`prepare`,`prepublishOnly`,`prepack`,`preyalcpublish`, 它们会按顺序在前面执行。如果你的包中含有以下脚本：`postyalcpublish`, `postpack`, `publish`, `postpublish`，他们会按顺序在后面执行。用`--no-scripts`可以在发布时不执行脚本。*
+  
+  *如果你的包中含有以下生命周期脚本：`prepublish`,`prepare`,`prepublishOnly`,`prepack`,`preyalcpublish`, 它们会按顺序在前面执行。如果你的包中含有以下脚本：`postyalcpublish`, `postpack`, `publish`, `postpublish`，他们会按顺序在后面执行。用`--no-scripts`可以在发布时不执行脚本。*
 
 - While copying package content, `yalc` calculates the hash signature of all files and, by default, adds this signature to the package manifest `version`. You can disable this by using the `--no-sig` option.
+  
   *复制包内容时，`yalc`计算所有文件的hash签名，默认情况下，将此签名添加到包清单的`version`中。你可以使用`--no-sig`参数来禁用它*
+
 - You may also use `.yalcignore` to exclude files from publishing to yalc repo, for example, files like README.md, etc.
+  
   *你同样可以使用`.yalcignore`来排除发布到yalc repo的文件，例如README.md等文件*
+
 - `--content` flag will show included files in the published package
+  
   *`--content`标记将显示发布包中包含的文件*
+
 - **NB!** In terms of which files will be included in the package `yalc` fully supposed to emulate behavior of `npm` client (`npm pack`). [If you have nested `.yalc` folder in your package](https://github.com/whitecolor/yalc/issues/95) that you are going to publish with `yalc` and you use `package.json` `files` list, it should be included there explicitly.
+  
   **注意** *关于哪些文件将被包括到`yalc`中，完全应该模拟`npm`客户端的行为（`npm pack`）。如果你的包中有嵌套的`。yakc`文件夹，你将使用`yack`发布，并且你用`package.json` `files`列表，他们应该显示的包含在其中*
+
 - **NB!** Windows users should make sure the `LF` new line symbol is used in published sources; it may be needed for some packages to work correctly (for example, `bin` scripts). `yalc` won't convert line endings for you (because `npm` and `yarn` won't either).
+ 
   **注意！** *windows 用户应该确保在发布的源代码中使用`LF`作为换行符，某些软件包可能需要这么做才能正常工作（比如`bin`脚本）， `yalc`不会为你转换换行符(因为`npm`和`yarn` 也不会)*
+
 - **NB!** Note that, if you want to include `.yalc` folder in published package content, you should add `!.yalc` line to `.npmignore`.
+  
   **注意！** *如果你想在发布的内容中包含`.yalc`文件，你应该添加 `!.yalc` 到 `.npmignore`*
+
 - [Easily propagate package updates everywhere.](#pushing-updates-automatically-to-all-installations)
+  
   **[轻松的将软件包更新到任何地方.](#pushing-updates-automatically-to-all-installations)**
+  
 - Yalc by default resolve `workspace:` protocol in dependencies, to omit this use `-no-workspace-resolve` flag
+  
   *默认情况下，yalc在依赖关系中解析 `workspace:`协议， 要忽略这一点，请使用`-no-workspace-resolve`标志*
+  
 
 ### Add
 
