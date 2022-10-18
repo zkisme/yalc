@@ -24,6 +24,7 @@ const overloadConsole = ({
   })
 }
 
+// 禁用非error输出
 export const disabledConsoleOutput = () => {
   overloadConsole({
     methods: ['log', 'warn', 'info'],

@@ -31,6 +31,7 @@ export const pmRunScriptCmd: { [P in PackageMangerName]: string } = {
 
 const defaultPm = 'npm'
 
+// 获取包管理工具
 export const getPackageManager = (cwd: string): PackageMangerName => {
   const pms = Object.keys(pmMarkFiles) as PackageMangerName[]
   return (
@@ -58,6 +59,7 @@ export const getPackageManagerUpdateCmd = (cwd: string) =>
 
 export const isYarn = (cwd: string) => getPackageManager(cwd) === 'yarn'
 
+// 运行更新命令
 export const runPmUpdate = (workingDir: string, packages: string[]) => {
   const pkgMgrCmd = [getPackageManagerUpdateCmd(workingDir), ...packages].join(
     ' '

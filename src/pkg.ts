@@ -37,7 +37,7 @@ export interface PackageManifest {
   scripts?: PackageScripts
   __Indent?: string
 }
-
+// 解析包名称和版本号
 export const parsePackageName = (packageName: string) => {
   const match = packageName.match(/(^@[^/]+\/)?([^@]+)@?(.*)/) || []
   if (!match) {
@@ -53,6 +53,7 @@ const getIndent = (jsonStr: string) => {
   return detectIndent(jsonStr).indent
 }
 
+// 读取项目package.json, 并记录缩进
 export function readPackageManifest(workingDir: string) {
   let pkg: PackageManifest
   const packagePath = join(workingDir, 'package.json')
@@ -76,6 +77,7 @@ export function readPackageManifest(workingDir: string) {
   }
 }
 
+// dependencies按字母排序
 const sortDependencies = (dependencies: { [name: string]: string }) => {
   return Object.keys(dependencies)
     .sort()
@@ -85,6 +87,7 @@ const sortDependencies = (dependencies: { [name: string]: string }) => {
     )
 }
 
+// 写入package.json， 修改依赖包
 export function writePackageManifest(workingDir: string, pkg: PackageManifest) {
   pkg = Object.assign({}, pkg)
   if (pkg.dependencies) {

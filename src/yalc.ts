@@ -32,6 +32,7 @@ const publishFlags = [
 
 const cliCommand = values.myNameIs
 
+// 获取版本号
 const getVersionMessage = () => {
   const pkg = require(__dirname + '/../package.json')
   return pkg.version
@@ -39,9 +40,11 @@ const getVersionMessage = () => {
 
 makeConsoleColored()
 
+// 获取.yalcrc配置
 const rcArgs = readRcConfig()
 
 if (process.argv.includes('--quiet') || rcArgs.quiet) {
+//   禁用非error输出
   disabledConsoleOutput()
 }
 

@@ -5,6 +5,7 @@ import { join } from 'path'
 
 const userHome = homedir()
 
+// 配置信息
 export const values = {
   myNameIs: 'yalc',
   ignoreFileName: '.yalcignore',
@@ -38,6 +39,7 @@ export interface YalcGlobal {
 */
 export const yalcGlobal: YalcGlobal = global as any
 
+// 获取yalc缓存目录
 export function getStoreMainDir(): string {
   if (yalcGlobal.yalcStoreMainDir) {
     return yalcGlobal.yalcStoreMainDir
@@ -48,10 +50,12 @@ export function getStoreMainDir(): string {
   return join(userHome, '.' + values.myNameIs)
 }
 
+//获取包缓存存放目录
 export function getStorePackagesDir(): string {
   return join(getStoreMainDir(), 'packages')
 }
 
+//获取指定包名目录
 export const getPackageStoreDir = (packageName: string, version = '') =>
   join(getStorePackagesDir(), packageName, version)
 
@@ -59,6 +63,7 @@ export const execLoudOptions = { stdio: 'inherit' } as ExecSyncOptions
 
 const signatureFileName = 'yalc.sig'
 
+//读取项目签名？文件
 export const readSignatureFile = (workingDir: string) => {
   const signatureFilePath = join(workingDir, signatureFileName)
   try {
@@ -69,6 +74,7 @@ export const readSignatureFile = (workingDir: string) => {
   }
 }
 
+//读取项目忽略文件
 export const readIgnoreFile = (workingDir: string) => {
   const filePath = join(workingDir, values.ignoreFileName)
   try {
@@ -79,6 +85,7 @@ export const readIgnoreFile = (workingDir: string) => {
   }
 }
 
+// 写入项目签名？文件
 export const writeSignatureFile = (workingDir: string, signature: string) => {
   const signatureFilePath = join(workingDir, signatureFileName)
   try {
