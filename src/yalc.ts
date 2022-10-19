@@ -48,6 +48,7 @@ if (process.argv.includes('--quiet') || rcArgs.quiet) {
   disabledConsoleOutput()
 }
 
+// 获取发布参数
 const getPublishOptions = (
   argv: any,
   override: Partial<PublishPackageOptions> = {}
